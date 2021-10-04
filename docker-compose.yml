@@ -1,20 +1,20 @@
 version: "3.8"
 services:
-  # mysql:
-  #   image: mysql:8.0
-  #   env_file: ./mysql/mysql.env
-  #   environment:
-  #     - TZ=Asia/Tokyo
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - ./mysql/conf:/etc/mysql/conf.d/:ro
-  #     - mysqldata:/var/lib/mysql
-  #   networks:
-  #     - default
+  mysql:
+    image: mysql:8.0
+    env_file: ./mysql/mysql.env
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d/:ro
+      - mysqldata:/var/lib/mysql
+    networks:
+      - default
   app:
     image: node:16
-    # env_file: ./app.env
+    env_file: ./app.env
     environment:
       - TZ=Asia/Tokyo
       - DEBUG=app:*
@@ -27,9 +27,9 @@ services:
     command: yarn dev
     networks:
       - default
-#     depends_on:
-#       - mysql
-# networks:
-#   default:
-# volumes:
-#   mysqldata:
+    depends_on:
+      - mysql
+networks:
+  default:
+volumes:
+  mysqldata:
